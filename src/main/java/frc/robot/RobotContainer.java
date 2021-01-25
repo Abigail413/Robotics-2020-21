@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
 import frc.robot.vision.Limelight;
+import frc.robot.vision.AimTarget;
 
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Flag;
@@ -74,6 +75,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(xbox, Button.kY.value)
     .whenPressed(new InstantCommand(() -> flag.flagSwitch(), flag));
+
+    new JoystickButton(xbox, Button.kX.value)
+    .whenPressed(new AimTarget(limelight, drivetrain));
   }
 
 
