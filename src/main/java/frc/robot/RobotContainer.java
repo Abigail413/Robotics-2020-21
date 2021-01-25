@@ -13,8 +13,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
+import frc.robot.vision.Limelight;
+
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Flag;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -34,6 +37,8 @@ public class RobotContainer {
   private final Drivetrain drivetrain = new Drivetrain();
 
   private final Flag flag = new Flag();
+
+  private final Limelight limelight = new Limelight();
 
   private Command manualDrive = new RunCommand(
     () -> drivetrain.getDifferentialDrive().tankDrive(
@@ -55,6 +60,11 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(manualDrive);
   }
 
+  public void init(){
+    limelight.driverMode();
+    limelight.lightOff();
+    limelight.PiPSecondaryStream();
+  }
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
