@@ -16,18 +16,24 @@ public class Flag extends SubsystemBase {
   /**
    * Creates a new Flag.
    */
-  private Solenoid flag = new Solenoid(compressorModule, flagPort);
-   
+  private Solenoid leftFlag = new Solenoid(compressorModule, leftFlagPort);
+  private Solenoid rightFlag = new Solenoid(compressorModule, rightFlagPort);
+
+
   private Compressor airow = new Compressor(0);
 
   private boolean flagUp = false;
 
   public void flagSwitch() {
     if (flagUp) {
-      flag.set(false);
+      leftFlag.set(false);
+      rightFlag.set(false);
+
 
     } else {
-      flag.set(true);
+      leftFlag.set(true);
+      rightFlag.set(true);
+
     }
   }
 

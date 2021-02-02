@@ -20,14 +20,15 @@ public final class Constants {
     public static final int kControllerPort = 0;
 
     //drivetrain ports
-    public static final int kLFrontWheelPort = 0;
-    public static final int kRFrontWheelPort = 1;
-    public static final int kLBackWheelPort = 2;
-    public static final int kRBackWheelPort = 3;
+    public static final int kLFrontWheelPort = 1;
+    public static final int kRFrontWheelPort = 2;
+    public static final int kLBackWheelPort = 3;
+    public static final int kRBackWheelPort = 4;
 
     //compressor port
-    public static final int compressorModule = 0;
+    public static final int compressorModule = 20;
 
     //solenoid ports
-    public static final int flagPort = 0;
+    public static final int leftFlagPort = 0;
+    public static final int rightFlagPort = 1;
 }
