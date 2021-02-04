@@ -26,8 +26,9 @@ public final class Constants {
     public static final int kRBackWheelPort = 4;
 
     //compressor port
-    public static final int compressorModule = 0;
+    public static final int compressorModule = 20;
 
     //solenoid ports
-    public static final int flagPort = 0;
+    public static final int leftFlagPort = 0;
+    public static final int rightFlagPort = 1;
 }
