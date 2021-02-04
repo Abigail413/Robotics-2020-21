@@ -17,10 +17,10 @@ import frc.robot.vision.Limelight;
 import frc.robot.vision.AimTarget;
 
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Flag;
+//import frc.robot.subsystems.Flag;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+//import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -37,7 +37,7 @@ public class RobotContainer {
 
   private final Drivetrain drivetrain = new Drivetrain();
 
-  private final Flag flag = new Flag();
+ // private final Flag flag = new Flag();
 
   private final Limelight limelight = new Limelight();
 
@@ -73,8 +73,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(xbox, Button.kY.value)
-    .whenPressed(new InstantCommand(() -> flag.flagSwitch(), flag));
+    /*new JoystickButton(xbox, Button.kY.value)
+    .whenPressed(new InstantCommand(() -> flag.flagSwitch(), flag));*/
 
     new JoystickButton(xbox, Button.kX.value)
     .whenPressed(new AimTarget(limelight, drivetrain));
