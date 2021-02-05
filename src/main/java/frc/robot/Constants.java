@@ -29,6 +29,6 @@ public final class Constants {
     public static final int compressorModule = 20;
 
     //solenoid ports
-    /*public static final int leftFlagPort = 0;
-    public static final int rightFlagPort = 1;*/
+    public static final int leftFlagPort = 0;
+    public static final int rightFlagPort = 1;
 }
