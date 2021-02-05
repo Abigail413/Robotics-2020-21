@@ -33,7 +33,7 @@ public class Flag extends SubsystemBase {
     } else {
       leftFlag.set(true);
       rightFlag.set(true);
-
+      flagUp = true;
     }
   }
 
