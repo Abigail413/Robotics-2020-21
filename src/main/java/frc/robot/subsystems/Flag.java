@@ -28,7 +28,7 @@ public class Flag extends SubsystemBase {
     if (flagUp) {
       leftFlag.set(false);
       rightFlag.set(false);
-
+      flagUp = false;
 
     } else {
       leftFlag.set(true);
