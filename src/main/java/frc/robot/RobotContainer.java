@@ -44,7 +44,7 @@ public class RobotContainer {
   private Command manualDrive = new RunCommand(
     () -> drivetrain.getDifferentialDrive().tankDrive(
       xbox.getRawAxis(Axis.kLeftY.value),
-      xbox.getRawAxis(Axis.kRightY.value),
+      -xbox.getRawAxis(Axis.kRightY.value),
       false
     ),
     drivetrain

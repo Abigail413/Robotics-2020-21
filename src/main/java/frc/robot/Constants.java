@@ -21,8 +21,8 @@ public final class Constants {
 
     //drivetrain ports
     public static final int kLFrontWheelPort = 1;
-    public static final int kRFrontWheelPort = 2;
-    public static final int kLBackWheelPort = 3;
+    public static final int kRFrontWheelPort = 3;
+    public static final int kLBackWheelPort = 2;
     public static final int kRBackWheelPort = 4;
 
     //compressor port
