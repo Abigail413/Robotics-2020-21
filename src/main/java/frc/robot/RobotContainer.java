@@ -18,6 +18,7 @@ import frc.robot.vision.AimTarget;
 
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Flag;
+import frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -40,6 +41,8 @@ public class RobotContainer {
   private final Flag flag = new Flag();
 
   private final Limelight limelight = new Limelight();
+
+  private final Shooter shooter = new Shooter(flag);
 
   private Command manualDrive = new RunCommand(
     () -> drivetrain.getDifferentialDrive().tankDrive(
@@ -65,6 +68,8 @@ public class RobotContainer {
     limelight.driverMode();
     limelight.lightOff();
     limelight.PiPSecondaryStream();
+
+    shooter.stop();
   }
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
@@ -78,6 +83,9 @@ public class RobotContainer {
 
     new JoystickButton(xbox, Button.kX.value)
     .whenPressed(new AimTarget(limelight, drivetrain));
+
+    new JoystickButton(xbox, Button.kBumperLeft.value)
+    .whenPressed(new InstantCommand(() -> shooter.toggleSpeedVolts(), shooter));
   }
 
 

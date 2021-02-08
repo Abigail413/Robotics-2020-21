@@ -25,10 +25,17 @@ public final class Constants {
     public static final int kLBackWheelPort = 2;
     public static final int kRBackWheelPort = 4;
 
+    //shooter port
+    public static final int kShooterPort = 5;
+
     //compressor port
     public static final int compressorModule = 20;
 
     //solenoid ports
     public static final int leftFlagPort = 0;
     public static final int rightFlagPort = 1;
+
+    //shooter voltages
+    public static final int intakeVolts = -4;
+    public static final int shooterVolts = 12;
 }

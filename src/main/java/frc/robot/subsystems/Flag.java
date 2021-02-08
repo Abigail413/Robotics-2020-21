@@ -41,6 +41,10 @@ public class Flag extends SubsystemBase {
     airow.start();
   }
 
+  public boolean isFlagUp() {
+    return flagUp;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
