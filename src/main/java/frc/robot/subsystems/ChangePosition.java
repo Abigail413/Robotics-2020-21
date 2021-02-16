@@ -12,37 +12,37 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Compressor;
 
 import static frc.robot.Constants.*;
-public class Flag extends SubsystemBase {
+public class ChangePosition extends SubsystemBase {
   /**
-   * Creates a new Flag.
+   * Creates a new ChangePosition.
    */
-  private Solenoid leftFlag = new Solenoid(compressorModule, leftFlagPort);
-  private Solenoid rightFlag = new Solenoid(compressorModule, rightFlagPort);
+  private Solenoid leftPiston = new Solenoid(compressorModule, leftPistonPort);
+  private Solenoid rightPiston = new Solenoid(compressorModule, rightPistonPort);
 
 
   private Compressor airow = new Compressor(0);
 
-  private boolean flagUp = false;
+  private boolean PosOut = false;
 
-  public void flagSwitch() {
-    if (flagUp) {
-      leftFlag.set(false);
-      rightFlag.set(false);
-      flagUp = false;
+  public void posSwitch() {
+    if (PosOut) {
+      leftPiston.set(false);
+      rightPiston.set(false);
+      PosOut = false;
 
     } else {
-      leftFlag.set(true);
-      rightFlag.set(true);
-      flagUp = true;
+      leftPiston.set(true);
+      rightPiston.set(true);
+      PosOut = true;
     }
   }
 
-  public Flag() {
+  public ChangePosition() {
     airow.start();
   }
 
-  public boolean isFlagUp() {
-    return flagUp;
+  public boolean isPosOut() {
+    return PosOut;
   }
 
   @Override

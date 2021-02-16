@@ -7,6 +7,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import frc.robot.vision.Limelight;
+
+
 import static frc.robot.Constants.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,13 +19,13 @@ public class Shooter extends SubsystemBase {
 
   private boolean engaged = false;
 
-  private Flag flag;
+  private ChangePosition changePos;
 
-  public Shooter(Flag flag) {
+  public Shooter(ChangePosition changePos, Limelight limelight) {
     
   }
 
-  public void collect() {
+public void collect() {
       launcher.setVoltage(intakeVolts);
       engaged = true;
   }
@@ -38,7 +41,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setSpeedVolts() {
-    if (flag.isFlagUp()) {
+    if (changePos.isPosOut()) {
       collect();
 
     } else {

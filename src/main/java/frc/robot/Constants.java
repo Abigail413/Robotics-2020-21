@@ -32,8 +32,8 @@ public final class Constants {
     public static final int compressorModule = 20;
 
     //solenoid ports
-    public static final int leftFlagPort = 0;
-    public static final int rightFlagPort = 1;
+    public static final int leftPistonPort = 0;
+    public static final int rightPistonPort = 1;
 
     //shooter voltages
     public static final int intakeVolts = -4;

@@ -17,7 +17,7 @@ import frc.robot.vision.Limelight;
 import frc.robot.vision.AimTarget;
 
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Flag;
+import frc.robot.subsystems.ChangePosition;
 import frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,11 +38,11 @@ public class RobotContainer {
 
   private final Drivetrain drivetrain = new Drivetrain();
 
-  private final Flag flag = new Flag();
+  private final ChangePosition positionSwitch = new ChangePosition();
 
   private final Limelight limelight = new Limelight();
 
-  private final Shooter shooter = new Shooter(flag);
+  private final Shooter shooter = new Shooter(positionSwitch, limelight);
 
   private Command manualDrive = new RunCommand(
     () -> drivetrain.getDifferentialDrive().tankDrive(
@@ -79,7 +79,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(xbox, Button.kY.value)
-    .whenPressed(new InstantCommand(() -> flag.flagSwitch(), flag));
+    .whenPressed(new InstantCommand(() -> positionSwitch.posSwitch(), positionSwitch));
 
     new JoystickButton(xbox, Button.kX.value)
     .whenPressed(new AimTarget(limelight, drivetrain));
