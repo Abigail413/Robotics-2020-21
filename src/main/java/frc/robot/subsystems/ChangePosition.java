@@ -22,18 +22,18 @@ public class ChangePosition extends SubsystemBase {
 
   private Compressor airow = new Compressor(0);
 
-  private boolean PosOut = false;
+  private boolean posOut = false;
 
   public void posSwitch() {
-    if (PosOut) {
+    if (posOut) {
       leftPiston.set(false);
       rightPiston.set(false);
-      PosOut = false;
+      posOut = false;
 
     } else {
       leftPiston.set(true);
       rightPiston.set(true);
-      PosOut = true;
+      posOut = true;
     }
   }
 
@@ -42,7 +42,7 @@ public class ChangePosition extends SubsystemBase {
   }
 
   public boolean isPosOut() {
-    return PosOut;
+    return posOut;
   }
 
   @Override
