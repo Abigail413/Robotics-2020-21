@@ -18,12 +18,15 @@ import frc.robot.vision.AimTarget;
 
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ChangePosition;
+import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import static frc.robot.Constants.*;
 
 
 /**
@@ -38,11 +41,13 @@ public class RobotContainer {
 
   private final Drivetrain drivetrain = new Drivetrain();
 
-  private final ChangePosition positionSwitch = new ChangePosition();
+  private final ChangePosition changePosition = new ChangePosition();
 
   private final Limelight limelight = new Limelight();
 
-  private final Shooter shooter = new Shooter(positionSwitch, limelight);
+  private final Shooter shooter = new Shooter(changePosition);
+
+  private final Conveyor conveyor = new Conveyor(changePosition, shooter);
 
   private Command manualDrive = new RunCommand(
     () -> drivetrain.getDifferentialDrive().tankDrive(
@@ -70,6 +75,7 @@ public class RobotContainer {
     limelight.PiPSecondaryStream();
 
     shooter.stop();
+    conveyor.stop();
   }
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
@@ -79,13 +85,20 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(xbox, Button.kY.value)
-    .whenPressed(new InstantCommand(() -> positionSwitch.posSwitch(), positionSwitch));
+    .whenPressed(new InstantCommand(() -> changePosition.posSwitch(), changePosition));
 
     new JoystickButton(xbox, Button.kX.value)
     .whenPressed(new AimTarget(limelight, drivetrain));
 
+  //aim for low goal shooting
     new JoystickButton(xbox, Button.kBumperLeft.value)
-    .whenPressed(new InstantCommand(() -> shooter.toggleSpeedVolts(), shooter));
+    .whenPressed(new InstantCommand(() -> shooter.toggleSpeedVolts(), shooter))
+    .whenPressed(new InstantCommand(() -> conveyor.toggleLowSpeedGoal(conveyorVolts), conveyor));
+  
+  //aim for high goal shooting
+  new JoystickButton(xbox, Button.kBumperLeft.value)
+    .whenPressed(new InstantCommand(() -> shooter.toggleSpeedVolts(), shooter))
+    .whenPressed(new InstantCommand(() -> conveyor.toggleHighSpeedGoal(conveyorVolts), conveyor));
   }
 
 

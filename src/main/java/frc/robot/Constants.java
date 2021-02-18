@@ -28,14 +28,20 @@ public final class Constants {
     //shooter port
     public static final int kShooterPort = 5;
 
+    //shooter voltages
+    public static final int intakeVolts = -4;
+    public static final int shooterVolts = 12;
+
     //compressor port
     public static final int compressorModule = 20;
+
+    //conveyor port
+    public static final int kConveyorPort = 8;
+
+    //conveyor voltage
+    public static final int conveyorVolts = 12;
 
     //solenoid ports
     public static final int leftPistonPort = 0;
     public static final int rightPistonPort = 1;
-
-    //shooter voltages
-    public static final int intakeVolts = -4;
-    public static final int shooterVolts = 12;
 }

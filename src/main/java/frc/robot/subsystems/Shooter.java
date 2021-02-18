@@ -7,45 +7,46 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import frc.robot.vision.Limelight;
-
-
 import static frc.robot.Constants.*;
 
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 
 public class Shooter extends SubsystemBase {
   private CANSparkMax launcher = new CANSparkMax(kShooterPort, MotorType.kBrushless);
 
   private boolean engaged = false;
 
-  private ChangePosition changePos;
+  private ChangePosition goalMover;
 
-  public Shooter(ChangePosition changePos, Limelight limelight) {
-    
+
+  public Shooter(ChangePosition changePos) {
+    goalMover = changePos;
   }
 
-public void collect() {
+public void collect(double intakeVolts) {
       launcher.setVoltage(intakeVolts);
       engaged = true;
   }
 
-  public void shoot() {
+  public void shoot(double shooterVolts) {
     launcher.setVoltage(shooterVolts);
     engaged = true;
   }
 
   public void stop() {
     launcher.setVoltage(0);
+
     engaged = false;
   }
 
-  public void setSpeedVolts() {
-    if (changePos.isPosOut()) {
-      collect();
+  public void setSpeedVolts(double intakeVolts, double shooterVolts) {
+    if (goalMover.isPosOut()) {
+      collect(intakeVolts);
 
     } else {
-      shoot();
+      shoot(shooterVolts);
     }
   }
 
@@ -54,10 +55,14 @@ public void collect() {
       stop();
 
     } else {
-      setSpeedVolts();
+      setSpeedVolts(intakeVolts, shooterVolts);
     }
   }
 
+  public boolean isEngaged() {
+    return engaged;
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
