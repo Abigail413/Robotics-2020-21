@@ -17,6 +17,7 @@ import frc.robot.vision.Limelight;
 import frc.robot.vision.AimTarget;
 
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Plucker;
 import frc.robot.subsystems.ChangePosition;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Shooter;
@@ -24,7 +25,10 @@ import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 
 import static frc.robot.Constants.*;
 
@@ -49,6 +53,8 @@ public class RobotContainer {
 
   private final Conveyor conveyor = new Conveyor(changePosition, shooter);
 
+  private final Plucker plucker = new Plucker(changePosition, shooter);
+
   private Command manualDrive = new RunCommand(
     () -> drivetrain.getDifferentialDrive().tankDrive(
       xbox.getRawAxis(Axis.kLeftY.value),
@@ -58,7 +64,16 @@ public class RobotContainer {
     drivetrain
   );
 
+  private SequentialCommandGroup shooterStartup = new SequentialCommandGroup(
+    new WaitCommand(shooterStartupTime).withInterrupt(changePosition::isPosOut),
+    new InstantCommand(() -> conveyor.setSpeed(conveyorVolts), conveyor),
+    new InstantCommand(() -> plucker.setSpeed(pluckerVolts), plucker)
+    );
 
+  private SequentialCommandGroup stopFeeders = new SequentialCommandGroup(
+    new InstantCommand(() -> conveyor.stop()),
+    new InstantCommand(() -> plucker.stop())
+  );
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -76,6 +91,7 @@ public class RobotContainer {
 
     shooter.stop();
     conveyor.stop();
+    plucker.stop();
   }
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
@@ -84,21 +100,18 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //switch shooter positions
     new JoystickButton(xbox, Button.kY.value)
-    .whenPressed(new InstantCommand(() -> changePosition.posSwitch(), changePosition));
+      .whenPressed(new InstantCommand(() -> changePosition.posSwitch(), changePosition));
 
+    //toggle limelight
     new JoystickButton(xbox, Button.kX.value)
-    .whenPressed(new AimTarget(limelight, drivetrain));
+      .whenPressed(new AimTarget(limelight, drivetrain));
 
-  //aim for low goal shooting
+    //shooting
     new JoystickButton(xbox, Button.kBumperLeft.value)
-    .whenPressed(new InstantCommand(() -> shooter.toggleSpeedVolts(), shooter))
-    .whenPressed(new InstantCommand(() -> conveyor.toggleLowSpeedGoal(conveyorVolts), conveyor));
-  
-  //aim for high goal shooting
-  new JoystickButton(xbox, Button.kBumperLeft.value)
-    .whenPressed(new InstantCommand(() -> shooter.toggleSpeedVolts(), shooter))
-    .whenPressed(new InstantCommand(() -> conveyor.toggleHighSpeedGoal(conveyorVolts), conveyor));
+      .whenPressed(new InstantCommand(() -> shooter.toggleSpeedVolts()))
+      .whenPressed(new ConditionalCommand(shooterStartup, stopFeeders, shooter::isEngaged));
   }
 
 

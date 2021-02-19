@@ -9,9 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import static frc.robot.Constants.*;
 
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 
 public class Shooter extends SubsystemBase {
   private CANSparkMax launcher = new CANSparkMax(kShooterPort, MotorType.kBrushless);

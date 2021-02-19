@@ -33,7 +33,7 @@ public final class Constants {
     public static final int shooterVolts = 12;
 
     //compressor port
-    public static final int compressorModule = 20;
+    public static final int kCompressorModule = 20;
 
     //conveyor port
     public static final int kConveyorPort = 8;
@@ -41,7 +41,16 @@ public final class Constants {
     //conveyor voltage
     public static final int conveyorVolts = 12;
 
+    //plucker port
+    public static final int kPluckerPort = 6;
+
+    //plucker voltage
+    public static final int pluckerVolts = 12;
+
     //solenoid ports
-    public static final int leftPistonPort = 0;
-    public static final int rightPistonPort = 1;
+    public static final int kLeftPistonPort = 0;
+    public static final int kRightPistonPort = 1;
+
+    //shooter startup wait time
+    public static final int shooterStartupTime = 2;
 }

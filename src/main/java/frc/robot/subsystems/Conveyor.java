@@ -31,9 +31,9 @@ public class Conveyor extends SubsystemBase {
   }
 
   public void stop() {
-    setSpeedLowGoal(0);
+    setSpeed(0);
   }
-  public void setSpeedLowGoal(double conveyorVolts) {
+  public void setSpeed(double conveyorVolts) {
     if (goalMover.isPosOut()) {
       collect(conveyorVolts);
 
@@ -42,27 +42,9 @@ public class Conveyor extends SubsystemBase {
     }
   }
 
-  public void setSpeedHighGoal(double conveyorVolts) {
-    if (goalMover.isPosOut()) {
-      conveyor.setVoltage(-conveyorVolts);
-
-    } else {
-      conveyor.setVoltage(conveyorVolts);
-    }
-  }
-
-  public void toggleLowSpeedGoal(double conveyorVolts) {
+  public void toggleSpeed(double conveyorVolts) {
     if (m_shooter.isEngaged()) {
-      setSpeedLowGoal(conveyorVolts);
-
-    } else {
-      stop();
-    }
-  }
-  
-  public void toggleHighSpeedGoal(double conveyorVolts) {
-    if (m_shooter.isEngaged()) {
-      setSpeedHighGoal(conveyorVolts);
+      setSpeed(conveyorVolts);
 
     } else {
       stop();

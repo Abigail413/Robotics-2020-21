@@ -16,8 +16,8 @@ public class ChangePosition extends SubsystemBase {
   /**
    * Creates a new ChangePosition.
    */
-  private Solenoid leftPiston = new Solenoid(compressorModule, leftPistonPort);
-  private Solenoid rightPiston = new Solenoid(compressorModule, rightPistonPort);
+  private Solenoid leftPiston = new Solenoid(kCompressorModule, kLeftPistonPort);
+  private Solenoid rightPiston = new Solenoid(kCompressorModule, kRightPistonPort);
 
 
   private Compressor airow = new Compressor(0);
