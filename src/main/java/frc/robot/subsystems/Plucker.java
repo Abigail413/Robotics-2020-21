@@ -16,11 +16,9 @@ public class Plucker extends SubsystemBase {
 
   private boolean engaged = false;
 
-  private Shooter m_shooter;
   private ChangePosition goalMover; 
 
-  public Plucker(ChangePosition changePosition, Shooter shooter) {
-    m_shooter = shooter;
+  public Plucker(ChangePosition changePosition) {
     goalMover = changePosition;
   }
 

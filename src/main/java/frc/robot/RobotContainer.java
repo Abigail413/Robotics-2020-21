@@ -53,7 +53,7 @@ public class RobotContainer {
 
   private final Conveyor conveyor = new Conveyor(changePosition, shooter);
 
-  private final Plucker plucker = new Plucker(changePosition, shooter);
+  private final Plucker plucker = new Plucker(changePosition);
 
   private Command manualDrive = new RunCommand(
     () -> drivetrain.getDifferentialDrive().tankDrive(
