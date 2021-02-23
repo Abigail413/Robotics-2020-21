@@ -10,13 +10,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Axis;
-import edu.wpi.first.wpilibj.XboxController.Button;
+import static edu.wpi.first.wpilibj.XboxController.Axis.*;
+import static edu.wpi.first.wpilibj.XboxController.Button.*;
 
 import frc.robot.vision.Limelight;
 import frc.robot.vision.AimTarget;
 
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Plucker;
 import frc.robot.subsystems.ChangePosition;
 import frc.robot.subsystems.Conveyor;
@@ -55,14 +56,19 @@ public class RobotContainer {
 
   private final Plucker plucker = new Plucker(changePosition);
 
+  private final Lift lift = new Lift();
+
   private Command manualDrive = new RunCommand(
     () -> drivetrain.getDifferentialDrive().tankDrive(
-      xbox.getRawAxis(Axis.kLeftY.value),
-      xbox.getRawAxis(Axis.kRightY.value),
+      xbox.getRawAxis(kLeftY.value),
+      xbox.getRawAxis(kRightY.value),
       false
     ),
     drivetrain
   );
+
+  private Command moveLift = new RunCommand(
+    () -> lift.move(xbox.getRawAxis(kRightTrigger.value - kLeftTrigger.value)), lift);
 
   private SequentialCommandGroup shooterStartup = new SequentialCommandGroup(
     new WaitCommand(shooterStartupTime).withInterrupt(changePosition::isPosOut),
@@ -82,6 +88,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     drivetrain.setDefaultCommand(manualDrive);
+    lift.setDefaultCommand(moveLift);
   }
 
   public void init(){
@@ -101,15 +108,15 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //switch shooter positions
-    new JoystickButton(xbox, Button.kY.value)
+    new JoystickButton(xbox, kY.value)
       .whenPressed(new InstantCommand(() -> changePosition.posSwitch(), changePosition));
 
     //toggle limelight
-    new JoystickButton(xbox, Button.kX.value)
+    new JoystickButton(xbox, kX.value)
       .whenPressed(new AimTarget(limelight, drivetrain));
 
     //shooting
-    new JoystickButton(xbox, Button.kBumperLeft.value)
+    new JoystickButton(xbox, kBumperLeft.value)
       .whenPressed(new InstantCommand(() -> shooter.toggleSpeedVolts()))
       .whenPressed(new ConditionalCommand(shooterStartup, stopFeeders, shooter::isEngaged));
   }

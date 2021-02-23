@@ -51,6 +51,9 @@ public final class Constants {
     public static final int kLeftPistonPort = 0;
     public static final int kRightPistonPort = 1;
 
+    //lift port
+    public static final int kLiftPort = 7;
+
     //shooter startup wait time
     public static final int shooterStartupTime = 2;
 }
