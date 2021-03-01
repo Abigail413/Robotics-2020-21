@@ -17,6 +17,7 @@ import frc.robot.vision.Limelight;
 import frc.robot.vision.AimTarget;
 
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.GearSwitch;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Plucker;
 import frc.robot.subsystems.ChangePosition;
@@ -58,10 +59,12 @@ public class RobotContainer {
 
   private final Lift lift = new Lift();
 
+  private final GearSwitch driveGears = new GearSwitch();
+
   private Command manualDrive = new RunCommand(
     () -> drivetrain.getDifferentialDrive().tankDrive(
-      kDrivePctLimit * drivetrain.deadband(xbox.getRawAxis(kLeftY.value), 0.05),
-      kDrivePctLimit * drivetrain.deadband(xbox.getRawAxis(kRightY.value), 0.05),
+      kDrivePctLimit * drivetrain.deadband(xbox.getRawAxis(kLeftY.value), kPctDeadband),
+      kDrivePctLimit * drivetrain.deadband(xbox.getRawAxis(kRightY.value), kPctDeadband),
       false
     ),
     drivetrain
@@ -119,6 +122,10 @@ public class RobotContainer {
     new JoystickButton(xbox, kBumperLeft.value)
       .whenPressed(new InstantCommand(() -> shooter.toggleSpeedVolts()))
       .whenPressed(new ConditionalCommand(shooterStartup, stopFeeders, shooter::isEngaged));
+
+    //switch drivetrain speeds
+    new JoystickButton(xbox, kA.value)
+      .whenPressed(new InstantCommand(() -> driveGears.switchGears(), driveGears));
   }
 
 

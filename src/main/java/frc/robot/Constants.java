@@ -25,8 +25,13 @@ public final class Constants {
     public static final int kLBackWheelPort = 2;
     public static final int kRBackWheelPort = 4;
 
-    //limit on speed of drivetrain
+    //limits on drivetrain
     public static final double kDrivePctLimit = 1;
+    public static final double kPctDeadband = 0.05;
+
+    //gear switch ports
+    public static final int kSwitchLeftPort = 2;
+    public static final int kSwitchRightPort = 3;
 
     //shooter port
     public static final int kShooterPort = 5;
