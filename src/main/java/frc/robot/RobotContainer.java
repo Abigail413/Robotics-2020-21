@@ -13,16 +13,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import static edu.wpi.first.wpilibj.XboxController.Axis.*;
 import static edu.wpi.first.wpilibj.XboxController.Button.*;
 
-import frc.robot.vision.Limelight;
-import frc.robot.vision.AimTarget;
+import frc.robot.subsystems.vision.Limelight;
+import frc.robot.subsystems.vision.AimTarget;
 
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.GearSwitch;
-import frc.robot.subsystems.Lift;
-import frc.robot.subsystems.Plucker;
-import frc.robot.subsystems.ChangePosition;
-import frc.robot.subsystems.Conveyor;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.drive.GearSwitch;
+import frc.robot.subsystems.lift.Lift;
+import frc.robot.subsystems.shooter.Plucker;
+import frc.robot.subsystems.shooter.ChangePosition;
+import frc.robot.subsystems.shooter.Conveyor;
+import frc.robot.subsystems.shooter.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
