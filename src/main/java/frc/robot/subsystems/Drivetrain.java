@@ -36,6 +36,18 @@ public class Drivetrain extends SubsystemBase {
     return roboDrive;
   }
 
+  public double deadband(double JoystickValue, double DeadbandCutOff) {
+    double deadbandReturn;
+    if (Math.abs(JoystickValue) < DeadbandCutOff) {
+      deadbandReturn = 0;
+
+    } else {
+      deadbandReturn = JoystickValue;
+    }
+    
+    return deadbandReturn;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

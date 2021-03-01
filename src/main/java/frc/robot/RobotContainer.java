@@ -42,7 +42,7 @@ import static frc.robot.Constants.*;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final XboxController xbox = new XboxController(Constants.kControllerPort);
+  private final XboxController xbox = new XboxController(kControllerPort);
 
   private final Drivetrain drivetrain = new Drivetrain();
 
@@ -60,8 +60,8 @@ public class RobotContainer {
 
   private Command manualDrive = new RunCommand(
     () -> drivetrain.getDifferentialDrive().tankDrive(
-      xbox.getRawAxis(kLeftY.value),
-      xbox.getRawAxis(kRightY.value),
+      kDrivePctLimit * drivetrain.deadband(xbox.getRawAxis(kLeftY.value), 0.05),
+      kDrivePctLimit * drivetrain.deadband(xbox.getRawAxis(kRightY.value), 0.05),
       false
     ),
     drivetrain
