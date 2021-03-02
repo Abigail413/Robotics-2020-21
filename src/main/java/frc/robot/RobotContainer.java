@@ -71,7 +71,7 @@ public class RobotContainer {
   );
 
   private Command moveLift = new RunCommand(
-    () -> lift.move(xbox.getRawAxis(kRightTrigger.value - kLeftTrigger.value)), lift);
+    () -> lift.move(xbox.getRawAxis(kRightTrigger.value) - xbox.getRawAxis(kLeftTrigger.value)), lift);
 
   private SequentialCommandGroup shooterStartup = new SequentialCommandGroup(
     new WaitCommand(shooterStartupTime).withInterrupt(changePosition::isPosOut),
@@ -116,7 +116,7 @@ public class RobotContainer {
 
     //toggle limelight
     new JoystickButton(xbox, kX.value)
-      .whenPressed(new AimTarget(limelight, drivetrain));
+      .whenHeld(new AimTarget(limelight, drivetrain));
 
     //shooting
     new JoystickButton(xbox, kBumperLeft.value)
