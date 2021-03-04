@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -64,4 +66,22 @@ public final class Constants {
 
     //shooter startup wait time
     public static final int shooterStartupTime = 2;
+
+    //robot measurements
+    public static final double kTicksPerRev = 4096;
+    public static final double kTrackWidthMeters = Units.inchesToMeters(10);
+    public static final double kGearRatio = 7.29;
+
+    public static final double kDriveWheelRadiusMeters = Units.inchesToMeters(3);
+    public static final double kShooterWheelRadiusMeters = Units.inchesToMeters(3);
+   
+    public static final double kMaxSafeVelocityMeters = Units.feetToMeters(2);
+    public static final double kMaxSafeAccelerationMeters = Units.feetToMeters(2);
+
+    public static final double kCameraAngle = 0;
+    public static final double kShooterAngle = 57;
+
+    public static final double kTargetToCameraHeight = 5;
+    public static final double kHighGoalHeight = Units.inchesToMeters(96);
+    public static final double kShooterHeight = Units.inchesToMeters(18);
 }
