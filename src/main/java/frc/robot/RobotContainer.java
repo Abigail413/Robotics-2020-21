@@ -10,12 +10,19 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+
 import static edu.wpi.first.wpilibj.XboxController.Axis.*;
 import static edu.wpi.first.wpilibj.XboxController.Button.*;
 
 import frc.robot.subsystems.vision.Limelight;
 import frc.robot.subsystems.vision.AimTarget;
-
+import frc.robot.Gains.Ramsete;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.drive.GearSwitch;
 import frc.robot.subsystems.lift.Lift;
@@ -26,6 +33,7 @@ import frc.robot.subsystems.shooter.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -33,6 +41,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 
 import static frc.robot.Constants.*;
+
+import java.util.Arrays;
 
 
 /**
@@ -83,6 +93,28 @@ public class RobotContainer {
     new InstantCommand(() -> conveyor.stop()),
     new InstantCommand(() -> plucker.stop())
   );
+
+  /*private SequentialCommandGroup onAndOff = new SequentialCommandGroup(
+    new InstantCommand(() -> conveyor.setSpeed(conveyorVolts), conveyor),
+    new InstantCommand(() -> plucker.setSpeed(pluckerVolts), plucker),
+    new WaitCommand(0.2),
+    new InstantCommand(() -> conveyor.stop()),
+    new InstantCommand(() -> plucker.stop()),
+    new WaitCommand(0.2)
+  );*/
+
+  private RamseteCommand rBase = new RamseteCommand(
+    getMovingTrajectory(), 
+    drivetrain::getPose,
+    new RamseteController(Ramsete.kBeta, Ramsete.kZeta), 
+    drivetrain.getFeedForwardDrive(), 
+    drivetrain.getKinematics(), 
+    drivetrain::getSpeeds, 
+    drivetrain.getLeftDrivePID(), 
+    drivetrain.getRightDrivePID(), 
+    drivetrain::setOutputVolts, 
+    drivetrain);
+
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -103,6 +135,16 @@ public class RobotContainer {
     conveyor.stop();
     plucker.stop();
   }
+
+  private Trajectory getMovingTrajectory() {
+    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+      Arrays.asList(Update.getStartingPose(), new Pose2d(1.0, 0, new Rotation2d()),  
+        new Pose2d(2.3, 1.2, Rotation2d.fromDegrees(90.0))),
+      new TrajectoryConfig(kMaxSafeVelocityMeters, kMaxSafeAccelerationMeters)
+    );
+
+    return trajectory;
+  }
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -118,14 +160,23 @@ public class RobotContainer {
     new JoystickButton(xbox, kX.value)
       .whenHeld(new AimTarget(limelight, drivetrain));
 
-    //shooting
+    //toggle shooter
     new JoystickButton(xbox, kBumperLeft.value)
       .whenPressed(new InstantCommand(() -> shooter.toggleSpeedVolts()))
       .whenPressed(new ConditionalCommand(shooterStartup, stopFeeders, shooter::isEngaged));
 
+    //toggle feeders
+    new JoystickButton(xbox, kBumperRight.value)
+      .whenPressed(new InstantCommand(() -> plucker.toggleSpeed(pluckerVolts), plucker))
+      .whenPressed(new InstantCommand(() -> conveyor.toggleSpeed(conveyorVolts), conveyor));
+
     //switch drivetrain speeds
     new JoystickButton(xbox, kA.value)
       .whenPressed(new InstantCommand(() -> driveGears.switchGears(), driveGears));
+
+    //toggle feeders
+    /*new JoystickButton(xbox, kBumperRight.value)
+      .whenHeld(onAndOff);*/
   }
 
 

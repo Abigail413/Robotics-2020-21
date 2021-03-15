@@ -49,13 +49,13 @@ public final class Constants {
     public static final int kConveyorPort = 8;
 
     //conveyor voltage
-    public static final int conveyorVolts = 12;
+    public static final int conveyorVolts = 10;
 
     //plucker port
     public static final int kPluckerPort = 6;
 
     //plucker voltage
-    public static final int pluckerVolts = 12;
+    public static final int pluckerVolts = 10;
 
     //solenoid ports
     public static final int kLeftPistonPort = 0;

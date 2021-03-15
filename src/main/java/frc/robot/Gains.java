@@ -19,5 +19,32 @@ public class Gains {
 		public static double kFF = 0.0005;
 	}
 
+	public static class leftDrive {
+		public static double kP = 0.1;
+		public static double kI = 0;
+		public static double kD = 0;
+	}
 
+	public static class rightDrive {
+		public static double kP = 0.1;
+		public static double kI = 0;
+		public static double kD = 0;
+	}
+
+	public static class feedForwardDriveRight {
+		public static double kS = 0;
+		public static double kV = 0;
+		public static double kA = 0;
+	}
+
+	public static class feedForwardDriveLeft {
+		public static double kS = 0;
+		public static double kV = 0;
+		public static double kA = 0;
+	}
+
+	public static class Ramsete {
+		public static final double kBeta = 2.0;
+		public static final double kZeta = 0.7;
+	}
 }
