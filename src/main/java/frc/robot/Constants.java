@@ -42,6 +42,10 @@ public final class Constants {
     public static final int intakeVolts = -4;
     public static final int shooterVolts = 12;
 
+    //Shooter RPM
+    public static final int intakeRPM = -1000;
+    public static final int shootingRPM = 3500;
+
     //compressor port
     public static final int kCompressorModule = 20;
 

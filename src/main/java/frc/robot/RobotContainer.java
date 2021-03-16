@@ -61,7 +61,7 @@ public class RobotContainer {
 
   private final Limelight limelight = new Limelight();
 
-  private final Shooter shooter = new Shooter(changePosition);
+  private final Shooter shooter = new Shooter(changePosition, limelight);
 
   private final Conveyor conveyor = new Conveyor(changePosition, shooter);
 
@@ -162,7 +162,7 @@ public class RobotContainer {
 
     //toggle shooter
     new JoystickButton(xbox, kBumperLeft.value)
-      .whenPressed(new InstantCommand(() -> shooter.toggleSpeedVolts()))
+      .whenPressed(new InstantCommand(() -> shooter.toggleSpeedSpark()))
       .whenPressed(new ConditionalCommand(shooterStartup, stopFeeders, shooter::isEngaged));
 
     //toggle feeders
@@ -177,6 +177,8 @@ public class RobotContainer {
     //toggle feeders
     /*new JoystickButton(xbox, kBumperRight.value)
       .whenHeld(onAndOff);*/
+      
+    //switch RPM of shooter
   }
 
 
