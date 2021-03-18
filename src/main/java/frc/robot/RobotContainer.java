@@ -35,15 +35,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
 
 import static frc.robot.Constants.*;
 
 import java.util.Arrays;
-
+import java.util.Map;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -61,7 +64,7 @@ public class RobotContainer {
 
   private final Limelight limelight = new Limelight();
 
-  private final Shooter shooter = new Shooter(changePosition, limelight);
+  private final Shooter shooter = new Shooter(changePosition);
 
   private final Conveyor conveyor = new Conveyor(changePosition, shooter);
 
@@ -94,6 +97,47 @@ public class RobotContainer {
     new InstantCommand(() -> plucker.stop())
   );
 
+  private zoneSelector selector = zoneSelector.far;
+
+  private enum zoneSelector {
+    near(nearShootingRPM, "near"), 
+    mid(midShootingRPM, "mid"), 
+    far(farShootingRPM, "far");
+
+    private final int shootingPosition;
+    private final String positionName;
+
+    zoneSelector (final int shootingPosition, final String positionName) {
+      this.positionName = positionName;
+      this.shootingPosition = shootingPosition;
+    }
+  }
+
+  private zoneSelector select() {
+    switch(selector) {
+      case near:
+        return zoneSelector.near;
+
+      case mid:
+        return zoneSelector.mid;
+        
+      case far:
+        return zoneSelector.far;
+
+      default:
+        return zoneSelector.far;
+        
+    }
+
+  }
+
+  private final CommandBase a = new SelectCommand(
+    Map.ofEntries(
+              Map.entry(zoneSelector.near, new InstantCommand(() -> shooter.toggleSpeedSpark(), shooter)),
+              Map.entry(zoneSelector.mid, new InstantCommand(() -> shooter.toggleSpeedSpark(), shooter)),
+              Map.entry(zoneSelector.far, new InstantCommand(() -> shooter.toggleSpeedSpark(), shooter))),
+          this::select);
+  
   /*private SequentialCommandGroup onAndOff = new SequentialCommandGroup(
     new InstantCommand(() -> conveyor.setSpeed(conveyorVolts), conveyor),
     new InstantCommand(() -> plucker.setSpeed(pluckerVolts), plucker),

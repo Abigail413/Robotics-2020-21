@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.shooter;
 
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
@@ -14,12 +13,9 @@ import static frc.robot.Constants.*;
 import static frc.robot.Gains.shooterPID.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.vision.Limelight;
 
 public class Shooter extends SubsystemBase {
   private CANSparkMax launcher = new CANSparkMax(kShooterPort, MotorType.kBrushless);
-
-  private CANEncoder launcherEncoder = launcher.getEncoder();
 
   private CANPIDController launcherController = launcher.getPIDController();
 
@@ -27,11 +23,10 @@ public class Shooter extends SubsystemBase {
 
   private ChangePosition goalMover;
 
-  private Limelight vision;
+  public int shootingRPM;
 
-  public Shooter(ChangePosition changePos, Limelight limelight) {
+  public Shooter(ChangePosition changePos) {
     goalMover = changePos;
-    vision = limelight;
 
     launcherController.setP(kP);
     launcherController.setI(kI);
@@ -82,6 +77,10 @@ public void collect(double intakeVolts) {
     }
 
     engaged = true;
+  }
+
+  public void switchRPM() {
+    if ()
   }
 
   public void toggleSpeedSpark() {
