@@ -27,6 +27,7 @@ import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.drive.GearSwitch;
 import frc.robot.subsystems.lift.Lift;
 import frc.robot.subsystems.shooter.Plucker;
+import frc.robot.subsystems.shooter.RPMSwitch;
 import frc.robot.subsystems.shooter.ChangePosition;
 import frc.robot.subsystems.shooter.Conveyor;
 import frc.robot.subsystems.shooter.Shooter;
@@ -74,6 +75,8 @@ public class RobotContainer {
 
   private final GearSwitch driveGears = new GearSwitch();
 
+  private final RPMSwitch switchRPM = new RPMSwitch(shooter);
+
   private Command manualDrive = new RunCommand(
     () -> drivetrain.getDifferentialDrive().tankDrive(
       kDrivePctLimit * drivetrain.deadband(xbox.getRawAxis(kLeftY.value), kPctDeadband),
@@ -97,46 +100,8 @@ public class RobotContainer {
     new InstantCommand(() -> plucker.stop())
   );
 
-  private zoneSelector selector = zoneSelector.far;
 
-  private enum zoneSelector {
-    near(nearShootingRPM, "near"), 
-    mid(midShootingRPM, "mid"), 
-    far(farShootingRPM, "far");
 
-    private final int shootingPosition;
-    private final String positionName;
-
-    zoneSelector (final int shootingPosition, final String positionName) {
-      this.positionName = positionName;
-      this.shootingPosition = shootingPosition;
-    }
-  }
-
-  private zoneSelector select() {
-    switch(selector) {
-      case near:
-        return zoneSelector.near;
-
-      case mid:
-        return zoneSelector.mid;
-        
-      case far:
-        return zoneSelector.far;
-
-      default:
-        return zoneSelector.far;
-        
-    }
-
-  }
-
-  private final CommandBase a = new SelectCommand(
-    Map.ofEntries(
-              Map.entry(zoneSelector.near, new InstantCommand(() -> shooter.toggleSpeedSpark(), shooter)),
-              Map.entry(zoneSelector.mid, new InstantCommand(() -> shooter.toggleSpeedSpark(), shooter)),
-              Map.entry(zoneSelector.far, new InstantCommand(() -> shooter.toggleSpeedSpark(), shooter))),
-          this::select);
   
   /*private SequentialCommandGroup onAndOff = new SequentialCommandGroup(
     new InstantCommand(() -> conveyor.setSpeed(conveyorVolts), conveyor),
@@ -223,6 +188,8 @@ public class RobotContainer {
       .whenHeld(onAndOff);*/
       
     //switch RPM of shooter
+    new JoystickButton(xbox, kStart.value)
+      .whenPressed(new InstantCommand(() -> switchRPM.zoneSwitch(), switchRPM));
   }
 
 

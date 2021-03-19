@@ -79,10 +79,6 @@ public void collect(double intakeVolts) {
     engaged = true;
   }
 
-  public void switchRPM() {
-    if ()
-  }
-
   public void toggleSpeedSpark() {
     if (engaged) {
       stop();
