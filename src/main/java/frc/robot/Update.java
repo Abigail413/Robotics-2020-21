@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 /** Add your docs here. */
 public class Update {
     //starting positions
@@ -24,7 +25,10 @@ public class Update {
         choosePosition.addOption("Right", right);
         SmartDashboard.putData("Starting Position", choosePosition);*/
     }
-
+    /**
+     * shows position of the robot at the beginning of a match
+     * @return starting position of the robot
+     */
     public static Pose2d getStartingPose() {
         final Pose2d position = center;
         return position;

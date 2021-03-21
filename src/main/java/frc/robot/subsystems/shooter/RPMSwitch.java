@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.*;
@@ -19,7 +20,15 @@ public class RPMSwitch extends SubsystemBase {
   public static zoneSelector selector = zoneSelector.far;
 
   public enum zoneSelector {
-    near, mid, far;
+    near("Near"), 
+    mid("Mid"), 
+    far("Far");
+
+    private final String positionName;
+
+    zoneSelector (final String positionName) {
+      this.positionName = positionName;
+    }
 }
 /**
  * switches through the zones and switches RPM of shooter
@@ -30,18 +39,22 @@ public class RPMSwitch extends SubsystemBase {
       case far:
         selector = zoneSelector.mid;
         shooter.shootingRPM = midShootingRPM;
+        SmartDashboard.putString("Shooting Postion:", zoneSelector.mid.positionName);
 
       case mid:
         selector = zoneSelector.near;
         shooter.shootingRPM = nearShootingRPM;
+        SmartDashboard.putString("Shooting Postion:", zoneSelector.near.positionName);
         
       case near:
         selector = zoneSelector.far;
         shooter.shootingRPM = farShootingRPM;
+        SmartDashboard.putString("Shooting Postion:", zoneSelector.far.positionName);
 
       default:
         selector = zoneSelector.mid;
         shooter.shootingRPM = midShootingRPM;
+        SmartDashboard.putString("Shooting Postion:", zoneSelector.mid.positionName);
 
     }
 

@@ -36,18 +36,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SelectCommand;
 
 import static frc.robot.Constants.*;
 
 import java.util.Arrays;
-import java.util.Map;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -134,7 +130,9 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(manualDrive);
     lift.setDefaultCommand(moveLift);
   }
-
+  /**
+   * settings for the robot on startup
+   */
   public void init(){
     limelight.driverMode();
     limelight.lightOff();
@@ -144,7 +142,10 @@ public class RobotContainer {
     conveyor.stop();
     plucker.stop();
   }
-
+  /**
+   * calculates the trajectory of the robot as it moves
+   * @return trajectory of the robot
+   */
   private Trajectory getMovingTrajectory() {
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
       Arrays.asList(Update.getStartingPose(), new Pose2d(1.0, 0, new Rotation2d()),  
