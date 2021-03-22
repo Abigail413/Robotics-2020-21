@@ -22,7 +22,6 @@ import static edu.wpi.first.wpilibj.XboxController.Button.*;
 
 import frc.robot.subsystems.vision.Limelight;
 import frc.robot.subsystems.vision.AimTarget;
-import frc.robot.Gains.Ramsete;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.drive.GearSwitch;
 import frc.robot.subsystems.lift.Lift;
@@ -111,7 +110,7 @@ public class RobotContainer {
   private RamseteCommand rBase = new RamseteCommand(
     getMovingTrajectory(), 
     drivetrain::getPose,
-    new RamseteController(Ramsete.kBeta, Ramsete.kZeta), 
+    new RamseteController(), 
     drivetrain.getFeedForwardDrive(), 
     drivetrain.getKinematics(), 
     drivetrain::getSpeeds, 

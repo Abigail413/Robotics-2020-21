@@ -43,8 +43,4 @@ public class Gains {
 		public static double kA = 0;
 	}
 
-	public static class Ramsete {
-		public static final double kBeta = 2.0;
-		public static final double kZeta = 0.7;
-	}
 }
