@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.*;
-import frc.robot.subsystems.shooter.Shooter;
 
 
 public class RPMSwitch extends SubsystemBase {
