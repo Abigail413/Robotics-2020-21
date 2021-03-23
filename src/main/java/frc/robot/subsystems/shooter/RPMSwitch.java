@@ -16,14 +16,14 @@ public class RPMSwitch extends SubsystemBase {
   public RPMSwitch(Shooter m_shooter) {
     shooter = m_shooter;
   }
-  public static zoneSelector selector = zoneSelector.far;
+  public zoneSelector selector = zoneSelector.far;
 
   public enum zoneSelector {
     near("Near"), 
     mid("Mid"), 
     far("Far");
 
-    private final String positionName;
+    public final String positionName;
 
     zoneSelector (final String positionName) {
       this.positionName = positionName;
@@ -38,22 +38,22 @@ public class RPMSwitch extends SubsystemBase {
       case far:
         selector = zoneSelector.mid;
         shooter.shootingRPM = midShootingRPM;
-        SmartDashboard.putString("Shooting Postion:", zoneSelector.mid.positionName);
+        //SmartDashboard.putString("Shooting Postion:", zoneSelector.mid.positionName);
 
       case mid:
         selector = zoneSelector.near;
         shooter.shootingRPM = nearShootingRPM;
-        SmartDashboard.putString("Shooting Postion:", zoneSelector.near.positionName);
+        //SmartDashboard.putString("Shooting Postion:", zoneSelector.near.positionName);
         
       case near:
         selector = zoneSelector.far;
         shooter.shootingRPM = farShootingRPM;
-        SmartDashboard.putString("Shooting Postion:", zoneSelector.far.positionName);
+        //SmartDashboard.putString("Shooting Postion:", zoneSelector.far.positionName);
 
-      default:
-        selector = zoneSelector.mid;
-        shooter.shootingRPM = midShootingRPM;
-        SmartDashboard.putString("Shooting Postion:", zoneSelector.mid.positionName);
+      //default: 
+        /*selector = zoneSelector.far;
+        shooter.shootingRPM = farShootingRPM;
+        SmartDashboard.putString("Shooting Postion:", zoneSelector.far.positionName);*/
 
     }
 

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
@@ -47,14 +48,18 @@ public class Drivetrain extends SubsystemBase {
     = new PIDController(0.1, 0, 0);
 
   //autonomous tracking
-  private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
-  private DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
+  private DifferentialDriveKinematics kinematics = 
+    new DifferentialDriveKinematics(kTrackWidthMeters);
+
+  private DifferentialDriveOdometry odometry = 
+    new DifferentialDriveOdometry(getHeading());
 
   private SimpleMotorFeedforward feedforwardDrive
     = new SimpleMotorFeedforward(feedForwardDriveLeft.kS, feedForwardDriveLeft.kV, feedForwardDriveLeft.kA);
 
   private Pose2d pose = new Pose2d();
   
+
   public Drivetrain() {
     LBackWheel.follow(LFrontWheel);
     RBackWheel.follow(RFrontWheel);
@@ -129,6 +134,12 @@ public void setOutputVolts(double leftVolts, double rightVolts) {
       LFrontWheel.getEncoder().getVelocity() / kGearRatio * 2 * Math.PI * kDriveWheelRadiusMeters / 60,
       RFrontWheel.getEncoder().getVelocity() / kGearRatio * 2 * Math.PI * kDriveWheelRadiusMeters / 60);
   }  
+
+   /*ChassisSpeeds leftDriveSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+     LFrontWheel.getEncoder().getVelocity(), 0, getAngle(), getHeading());
+  
+   ChassisSpeeds rightDriveSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+     RFrontWheel.getEncoder().getVelocity(), 0, getAngle(), getHeading());*/
 
   @Override
   public void periodic() {

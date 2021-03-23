@@ -23,7 +23,7 @@ public class Shooter extends SubsystemBase {
 
   private ChangePosition goalMover;
 
-  public int shootingRPM;
+  public int shootingRPM = midShootingRPM;
 
   public Shooter(ChangePosition changePos) {
     goalMover = changePos;
@@ -90,6 +90,52 @@ public void collect(double intakeVolts) {
 
   public boolean isEngaged() {
     return engaged;
+  }
+
+  public zoneSelector selector = zoneSelector.mid;
+
+  public enum zoneSelector {
+    near("Near"), 
+    mid("Mid"), 
+    far("Far");
+
+    public final String positionName;
+
+    zoneSelector (final String positionName) {
+      this.positionName = positionName;
+    }
+}
+/**
+ * switches through the zones and switches RPM of shooter
+ * @return new zone
+ */
+  public void zoneSwitch() {
+    switch(selector) {
+      case far:
+        selector = zoneSelector.mid;
+        shootingRPM = midShootingRPM;
+        //SmartDashboard.putString("Shooting Postion:", zoneSelector.mid.positionName);
+        break;
+
+      case mid:
+        selector = zoneSelector.near;
+        shootingRPM = nearShootingRPM;
+        //SmartDashboard.putString("Shooting Postion:", zoneSelector.near.positionName);
+        break;
+
+      case near:
+        selector = zoneSelector.far;
+        shootingRPM = farShootingRPM;
+        //SmartDashboard.putString("Shooting Postion:", zoneSelector.far.positionName);
+        break;
+        
+      default: 
+        selector = zoneSelector.mid;
+        shootingRPM = midShootingRPM;
+        //SmartDashboard.putString("Shooting Postion:", zoneSelector.far.positionName);
+
+    }
+
   }
   
   @Override
