@@ -104,7 +104,7 @@ public void collect(double intakeVolts) {
     zoneSelector (final String positionName) {
       this.positionName = positionName;
     }
-}
+  }
 /**
  * switches through the zones and switches RPM of shooter
  * @return new zone
