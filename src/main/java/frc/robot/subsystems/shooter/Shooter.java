@@ -114,25 +114,21 @@ public void collect(double intakeVolts) {
       case far:
         selector = zoneSelector.mid;
         shootingRPM = midShootingRPM;
-        //SmartDashboard.putString("Shooting Postion:", zoneSelector.mid.positionName);
         break;
 
       case mid:
         selector = zoneSelector.near;
         shootingRPM = nearShootingRPM;
-        //SmartDashboard.putString("Shooting Postion:", zoneSelector.near.positionName);
         break;
 
       case near:
         selector = zoneSelector.far;
         shootingRPM = farShootingRPM;
-        //SmartDashboard.putString("Shooting Postion:", zoneSelector.far.positionName);
         break;
-        
+
       default: 
         selector = zoneSelector.mid;
         shootingRPM = midShootingRPM;
-        //SmartDashboard.putString("Shooting Postion:", zoneSelector.far.positionName);
 
     }
 

@@ -27,7 +27,6 @@ import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.drive.GearSwitch;
 import frc.robot.subsystems.lift.Lift;
 import frc.robot.subsystems.shooter.Plucker;
-import frc.robot.subsystems.shooter.RPMSwitch;
 import frc.robot.subsystems.shooter.ChangePosition;
 import frc.robot.subsystems.shooter.Conveyor;
 import frc.robot.subsystems.shooter.Shooter;
@@ -72,7 +71,6 @@ public class RobotContainer {
 
   private final GearSwitch driveGears = new GearSwitch();
 
-  private final RPMSwitch switchRPM = new RPMSwitch(shooter);
 
   private Command manualDrive = new RunCommand(
     () -> drivetrain.getDifferentialDrive().tankDrive(
