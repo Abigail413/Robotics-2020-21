@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import static frc.robot.Constants.*;
 import static frc.robot.Gains.shooterPID.*;
 
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
@@ -133,7 +134,21 @@ public void collect(double intakeVolts) {
     }
 
   }
-  
+  /**
+   * This calculates the rotations per minute necessary to shoot a ball into the target from a given distance.
+   * @param distanceMeters from target
+   * @return RPM appropriate for the distance
+   */
+  private double calculateRPM(double distanceMeters) {
+    double bValue = ((kTargetToCameraHeight * Math.cos(kShooterAngle)) / Math.pow(distanceMeters, 2)); 
+    double aValue = -((Math.sin(kShooterAngle)) / distanceMeters);
+
+    double shooterVelocity = (-(bValue) + Math.sqrt(Math.pow(bValue, 2) - (4 * aValue * kAccelerationGravity))) / (2 * Math.sin(aValue));
+    double radPerSecond = shooterVelocity / kShooterWheelRadiusMeters;
+
+    return Units.radiansPerSecondToRotationsPerMinute(radPerSecond);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

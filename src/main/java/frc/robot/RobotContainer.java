@@ -87,6 +87,7 @@ public class RobotContainer {
   private SequentialCommandGroup shooterStartup = new SequentialCommandGroup(
     new WaitCommand(shooterStartupTime).withInterrupt(changePosition::isPosOut),
     new InstantCommand(() -> conveyor.setSpeed(conveyorVolts), conveyor),
+    new WaitCommand(0.5),
     new InstantCommand(() -> plucker.setSpeed(pluckerVolts), plucker)
     );
 

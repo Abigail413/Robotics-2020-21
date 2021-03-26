@@ -71,7 +71,7 @@ public final class Constants {
     public static final int kLiftPort = 7;
 
     //shooter startup wait time
-    public static final int shooterStartupTime = 2;
+    public static final int shooterStartupTime = 6;
 
     //robot measurements
     public static final double kTicksPerRev = 4096;
@@ -85,9 +85,12 @@ public final class Constants {
     public static final double kMaxSafeAccelerationMeters = Units.feetToMeters(2);
 
     public static final double kCameraAngle = 0;
-    public static final double kShooterAngle = 57;
+    public static final double kShooterAngle = 57.5;
 
-    public static final double kTargetToCameraHeight = 5;
+    public static final double kTargetToCameraHeight = Units.inchesToMeters(80.25);
     public static final double kHighGoalHeight = Units.inchesToMeters(96);
     public static final double kShooterHeight = Units.inchesToMeters(18);
+
+    //acceleration due to gravity
+    public static final double kAccelerationGravity = 9.80665;
 }
