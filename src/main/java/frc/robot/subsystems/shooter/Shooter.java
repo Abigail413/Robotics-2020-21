@@ -135,11 +135,11 @@ public void collect(double intakeVolts) {
 
   }
   /**
-   * This calculates the rotations per minute necessary to shoot a ball into the target from a given distance.
+   * This calculates the rotations per minute necessary to shoot a ball into the target from a given distance. It is the positive half of a quadratic formula
    * @param distanceMeters from target
    * @return RPM appropriate for the distance
    */
-  private double calculateRPM(double distanceMeters) {
+  private double calculateRPMPos(double distanceMeters) {
     double bValue = ((kTargetToCameraHeight * Math.cos(kShooterAngle)) / Math.pow(distanceMeters, 2)); 
     double aValue = -((Math.sin(kShooterAngle)) / distanceMeters);
 
@@ -148,7 +148,20 @@ public void collect(double intakeVolts) {
 
     return Units.radiansPerSecondToRotationsPerMinute(radPerSecond);
   }
+ /**
+   * This calculates the rotations per minute necessary to shoot a ball into the target from a given distance. It is the negative half of a quadratic formula
+   * @param distanceMeters from target
+   * @return RPM appropriate for the distance
+   */
+  private double calculateRPMNeg(double distanceMeters) {
+    double bValue = ((kTargetToCameraHeight * Math.cos(kShooterAngle)) / Math.pow(distanceMeters, 2)); 
+    double aValue = -((Math.sin(kShooterAngle)) / distanceMeters);
 
+    double shooterVelocity = (-(bValue) - Math.sqrt(Math.pow(bValue, 2) - (4 * aValue * kAccelerationGravity))) / (2 * Math.sin(aValue));
+    double radPerSecond = shooterVelocity / kShooterWheelRadiusMeters;
+
+    return Units.radiansPerSecondToRotationsPerMinute(radPerSecond);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
