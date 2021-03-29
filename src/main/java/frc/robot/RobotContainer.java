@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -33,7 +32,6 @@ import frc.robot.subsystems.shooter.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -61,7 +59,7 @@ public class RobotContainer {
 
   private final Limelight limelight = new Limelight();
 
-  private final Shooter shooter = new Shooter(changePosition);
+  private final Shooter shooter = new Shooter(changePosition, limelight);
 
   private final Conveyor conveyor = new Conveyor(changePosition, shooter);
 
@@ -144,8 +142,8 @@ public class RobotContainer {
   }
 
   public void periodic() {
-    SmartDashboard.putString("Shooting Postion:", shooter.selector.positionName);
-    SmartDashboard.putNumber("Shooting RPM", shooter.shootingRPM);
+    /*SmartDashboard.putString("Shooting Postion:", shooter.selector.positionName);
+    SmartDashboard.putNumber("Shooting RPM", shooter.shootingRPM);*/
   }
   /**
    * calculates the trajectory of the robot as it moves
@@ -194,9 +192,9 @@ public class RobotContainer {
       .whenHeld(onAndOff);*/
       
     //switch RPM of shooter
-    new JoystickButton(xbox, kStart.value)
+    /*new JoystickButton(xbox, kStart.value)
       .whenPressed(new InstantCommand(() -> shooter.zoneSwitch(), shooter))
-      .whenPressed(new PrintCommand("Pressed"));
+      .whenPressed(new PrintCommand("Pressed"));*/
   }
 
 

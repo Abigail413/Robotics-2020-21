@@ -91,6 +91,8 @@ public final class Constants {
     public static final double kHighGoalHeight = Units.inchesToMeters(96);
     public static final double kShooterHeight = Units.inchesToMeters(18);
 
+    public static final double kCameraToCenterOfBall = Units.inchesToMeters(18.5);
+
     //acceleration due to gravity
     public static final double kAccelerationGravity = 9.80665;
 }

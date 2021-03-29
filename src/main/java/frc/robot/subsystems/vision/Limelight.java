@@ -12,6 +12,9 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import static frc.robot.Constants.*;
+
+
 /**
  * Configures limelight settings
  */
@@ -185,9 +188,9 @@ public class Limelight extends SubsystemBase {
      * @param cameraAngle The mounting angle in degrees of the limelight. If needed, 
      * use findMountingAngle() with a measured distance to find this.
     */
-    public double getTargetDistanceMeasured(double cameraToTargetHeight, double cameraAngle) {
-        double distance = cameraToTargetHeight / Math.tan(Math.toRadians(cameraAngle + ty.getDouble(0.0)));
-        return distance;
+    public double getTargetDistanceMeasured() {
+        double distance = kTargetToCameraHeight / Math.tan(Math.toRadians(kCameraAngle + ty.getDouble(0.0)));
+        return distance - kCameraToCenterOfBall;
     }
 
     /** 

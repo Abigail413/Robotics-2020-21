@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import static frc.robot.Constants.*;
 import static frc.robot.Gains.shooterPID.*;
+import frc.robot.subsystems.vision.Limelight;
 
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,11 +24,13 @@ public class Shooter extends SubsystemBase {
   private boolean engaged = false;
 
   private ChangePosition goalMover;
+  private Limelight limelight;
 
   public int shootingRPM = midShootingRPM;
 
-  public Shooter(ChangePosition changePos) {
+  public Shooter(ChangePosition changePos, Limelight vision) {
     goalMover = changePos;
+    limelight = vision;
 
     launcherController.setP(kP);
     launcherController.setI(kI);
@@ -74,7 +77,7 @@ public void collect(double intakeVolts) {
       launcherController.setReference(intakeRPM, ControlType.kVelocity);
 
     } else {
-      launcherController.setReference(shootingRPM, ControlType.kVelocity);
+      launcherController.setReference(calculateRPM(limelight.getTargetDistanceMeasured()), ControlType.kVelocity);
     }
 
     engaged = true;
@@ -93,7 +96,7 @@ public void collect(double intakeVolts) {
     return engaged;
   }
 
-  public zoneSelector selector = zoneSelector.mid;
+  /*public zoneSelector selector = zoneSelector.mid;
 
   public enum zoneSelector {
     near("Near"), 
@@ -105,12 +108,12 @@ public void collect(double intakeVolts) {
     zoneSelector (final String positionName) {
       this.positionName = positionName;
     }
-  }
+  }*/
 /**
  * switches through the zones and switches RPM of shooter
  * @return new zone
  */
-  public void zoneSwitch() {
+  /*public void zoneSwitch() {
     switch(selector) {
       case far:
         selector = zoneSelector.mid;
@@ -133,7 +136,7 @@ public void collect(double intakeVolts) {
 
     }
 
-  }
+  }*/
   /**
    * This calculates the rotations per minute necessary to shoot a ball into the target from a given distance. It chooses between two calculated RPMs and chooses the lesser positive one.
    * @param distanceMeters from target
