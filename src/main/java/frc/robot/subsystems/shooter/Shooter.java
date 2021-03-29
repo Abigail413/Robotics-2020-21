@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.shooter;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
@@ -20,6 +21,8 @@ public class Shooter extends SubsystemBase {
   private CANSparkMax launcher = new CANSparkMax(kShooterPort, MotorType.kBrushless);
 
   private CANPIDController launcherController = launcher.getPIDController();
+
+  private CANEncoder launcherEncoder = launcher.getEncoder();
 
   private boolean engaged = false;
 
@@ -176,6 +179,13 @@ public void collect(double intakeVolts) {
 
   }
   
+  public double getVelocity() {
+    return launcherEncoder.getVelocity();
+  }
+
+  public boolean atSpeed(double range) {
+    return calculateRPM(limelight.getTargetDistanceMeasured()) - range <= getVelocity();
+  }
 
   @Override
   public void periodic() {

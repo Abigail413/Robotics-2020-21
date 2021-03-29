@@ -32,10 +32,12 @@ import frc.robot.subsystems.shooter.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 
@@ -89,13 +91,17 @@ public class RobotContainer {
     new InstantCommand(() -> plucker.setSpeed(pluckerVolts), plucker)
     );
 
-  private SequentialCommandGroup stopFeeders = new SequentialCommandGroup(
+  private ParallelCommandGroup stopFeeders = new ParallelCommandGroup(
     new InstantCommand(() -> conveyor.stop()),
     new InstantCommand(() -> plucker.stop()),
     new InstantCommand(() -> limelight.lightOff())
   );
 
-
+  private SequentialCommandGroup waitUntilVelocity = new SequentialCommandGroup(
+    new WaitUntilCommand(() -> shooter.atSpeed(100)),
+    new InstantCommand(() -> plucker.setSpeed(conveyorVolts), plucker),
+    new InstantCommand(() -> conveyor.setSpeed(pluckerVolts), conveyor)
+  );
 
   
   /*private SequentialCommandGroup onAndOff = new SequentialCommandGroup(
@@ -178,7 +184,7 @@ public class RobotContainer {
     new JoystickButton(xbox, kBumperLeft.value)
       .whenPressed(new InstantCommand(() -> limelight.lightOn()))
       .whenPressed(new InstantCommand(() -> shooter.toggleSpeedSpark()))
-      .whenPressed(new ConditionalCommand(shooterStartup, stopFeeders, shooter::isEngaged));
+      .whenPressed(new ConditionalCommand(waitUntilVelocity, stopFeeders, shooter::isEngaged));
 
     //toggle feeders
     new JoystickButton(xbox, kBumperRight.value)
