@@ -93,7 +93,9 @@ public class RobotContainer {
   private ParallelCommandGroup stopFeeders = new ParallelCommandGroup(
     new InstantCommand(() -> conveyor.stop()),
     new InstantCommand(() -> plucker.stop()),
-    new InstantCommand(() -> limelight.lightOff())
+    new InstantCommand(() -> limelight.lightOff()),
+    new InstantCommand(() -> limelight.driverMode())
+
   );
 
   private SequentialCommandGroup waitUntilVelocity = new SequentialCommandGroup(
@@ -181,7 +183,8 @@ public class RobotContainer {
 
     //toggle shooter and turn limelight on for CalculateRPM
     new JoystickButton(xbox, kBumperLeft.value)
-      .whenPressed(new InstantCommand(() -> limelight.lightOn()))
+      .whenPressed(new InstantCommand(() -> limelight.visionMode(), limelight))
+      .whenPressed(new InstantCommand(() -> limelight.lightOn(), limelight))
       .whenPressed(new InstantCommand(() -> shooter.toggleSpeedSpark()))
       .whenPressed(new ConditionalCommand(waitUntilVelocity, stopFeeders, shooter::isEngaged));
 
