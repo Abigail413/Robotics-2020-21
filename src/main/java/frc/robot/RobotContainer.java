@@ -36,7 +36,6 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
@@ -84,12 +83,12 @@ public class RobotContainer {
   private Command moveLift = new RunCommand(
     () -> lift.move(xbox.getRawAxis(kRightTrigger.value) - xbox.getRawAxis(kLeftTrigger.value)), lift);
 
-  private SequentialCommandGroup shooterStartup = new SequentialCommandGroup(
+  /*private SequentialCommandGroup shooterStartup = new SequentialCommandGroup(
     new WaitCommand(shooterStartupTime).withInterrupt(changePosition::isPosOut),
     new InstantCommand(() -> conveyor.setSpeed(conveyorVolts), conveyor),
     new WaitCommand(0.5),
     new InstantCommand(() -> plucker.setSpeed(pluckerVolts), plucker)
-    );
+    );*/
 
   private ParallelCommandGroup stopFeeders = new ParallelCommandGroup(
     new InstantCommand(() -> conveyor.stop()),
