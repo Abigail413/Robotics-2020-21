@@ -88,7 +88,7 @@ public final class Constants {
     public static final double kShooterAngle = 57.5;
 
     public static final double kTargetToCameraHeight = Units.inchesToMeters(80.25);
-    public static final double kHighGoalHeight = Units.inchesToMeters(96);
+    public static final double kHighGoalHeight = Units.inchesToMeters(98.25);
     public static final double kShooterHeight = Units.inchesToMeters(18);
 
     public static final double kCameraToCenterOfBall = Units.inchesToMeters(18.5);
