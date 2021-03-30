@@ -84,7 +84,7 @@ public final class Constants {
     public static final double kMaxSafeVelocityMeters = Units.feetToMeters(2);
     public static final double kMaxSafeAccelerationMeters = Units.feetToMeters(2);
 
-    public static final double kCameraAngle = 0;
+    public static final double kCameraAngle = 57.5;
     public static final double kShooterAngle = 57.5;
 
     public static final double kTargetToCameraHeight = Units.inchesToMeters(80.25);
