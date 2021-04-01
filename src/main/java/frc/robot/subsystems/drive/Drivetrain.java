@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -33,6 +34,9 @@ public class Drivetrain extends SubsystemBase {
   private CANSparkMax RBackWheel = new CANSparkMax(kRBackWheelPort, MotorType.kBrushless);
 
   private DifferentialDrive roboDrive = new DifferentialDrive(LFrontWheel, RFrontWheel);
+
+  private SlewRateLimiter leftLimiter = new SlewRateLimiter(0.3);
+  private SlewRateLimiter rightLimiter = new SlewRateLimiter(0.3);
 
   //drive PIDs
   private PIDController leftDrivePID
@@ -68,6 +72,10 @@ public class Drivetrain extends SubsystemBase {
     RFrontWheel.getEncoder().setPosition(0);
 
     gyro.reset();
+  }
+
+  public void limiterDrive(double leftPercent, double rightPercent) {
+    roboDrive.tankDrive(leftLimiter.calculate(leftPercent), rightLimiter.calculate(rightPercent));
   }
 
   public DifferentialDrive getDifferentialDrive() {

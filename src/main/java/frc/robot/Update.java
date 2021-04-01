@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.shooter.Shooter;
 
 
 /** Add your docs here. */
@@ -19,11 +21,15 @@ public class Update {
 
     //private static final SendableChooser choosePosition = new SendableChooser<Pose2d>();
 
-    public Update() {
+    private Shooter shooter;
+
+    public Update(Shooter m_shooter) {
+        shooter = m_shooter;
         /*choosePosition.setDefaultOption("Center", center);
         choosePosition.addOption("Left", left);
         choosePosition.addOption("Right", right);
         SmartDashboard.putData("Starting Position", choosePosition);*/
+        SmartDashboard.putNumber("Calculated RPM", shooter.calculateRPM());
     }
     /**
      * shows position of the robot at the beginning of a match

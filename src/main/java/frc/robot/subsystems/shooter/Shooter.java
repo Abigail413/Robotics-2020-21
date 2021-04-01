@@ -80,7 +80,7 @@ public void collect(double intakeVolts) {
       launcherController.setReference(intakeRPM, ControlType.kVelocity);
 
     } else {
-      launcherController.setReference(calculateRPM(limelight.getTargetDistanceMeasured()), ControlType.kVelocity);
+      launcherController.setReference(calculateRPM(/*limelight.getTargetDistanceMeasured()*/), ControlType.kVelocity);
     }
 
     engaged = true;
@@ -145,7 +145,7 @@ public void collect(double intakeVolts) {
    * @param distanceMeters from target
    * @return RPM appropriate for the distance
    */
-  private double calculateRPM(double distanceMeters) {
+  /*private double calculateRPM(double distanceMeters) {
     double bValue = ((kTargetToCameraHeight * Math.cos(kShooterAngle)) / Math.pow(distanceMeters, 2)); 
     double aValue = -((Math.sin(kShooterAngle)) / distanceMeters);
 
@@ -177,6 +177,18 @@ public void collect(double intakeVolts) {
       return 0; // something went wrong, let us not break things. It could be that RPMNeg and RPMPos are both negative
     }
 
+  }*/
+  public double calculateRPM(/*double distanceMeters*/) {
+    double distance = 3.7846;
+    double top = Math.sqrt(4.9 * Math.pow(distance, 2)); 
+    double bottom = Math.sqrt(Math.pow(Math.cos(Math.toRadians(kShooterAngle)), 2) *
+     (kHighGoalHeight - kShooterHeight - Math.tan(kShooterAngle) * distance));
+
+    double metersPerSecond = top/bottom;
+
+    double radiansPerSecond = metersPerSecond / kShooterWheelRadiusMeters;
+
+    return Units.radiansPerSecondToRotationsPerMinute(radiansPerSecond);
   }
   
   public double getVelocity() {
@@ -184,11 +196,12 @@ public void collect(double intakeVolts) {
   }
 
   public boolean atSpeed(double range) {
-    return calculateRPM(limelight.getTargetDistanceMeasured()) - range <= getVelocity();
+    return calculateRPM(/*limelight.getTargetDistanceMeasured()*/) - range <= getVelocity();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    System.out.println("" + calculateRPM());
   }
 }
