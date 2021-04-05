@@ -29,7 +29,7 @@ public class Update {
         choosePosition.addOption("Left", left);
         choosePosition.addOption("Right", right);
         SmartDashboard.putData("Starting Position", choosePosition);*/
-        SmartDashboard.putNumber("Calculated RPM", shooter.calculateRPM());
+        //SmartDashboard.putNumber("Calculated RPM", shooter.calculateRPM());
     }
     /**
      * shows position of the robot at the beginning of a match
