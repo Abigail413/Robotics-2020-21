@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
@@ -103,8 +104,42 @@ public class RobotContainer {
     new InstantCommand(() -> plucker.setSpeed(conveyorVolts), plucker),
     new InstantCommand(() -> conveyor.setSpeed(pluckerVolts), conveyor)
   );
+/**
+ * tests each robot component individually
+ */
+  public SequentialCommandGroup testRobot = new SequentialCommandGroup(
+    new RunCommand(() -> drivetrain.getDifferentialDrive().tankDrive(0.4, 0.4), drivetrain).withTimeout(2), //checks drivetrain
+    new WaitCommand(.25),
 
-  
+    new InstantCommand(() -> driveGears.switchGears()), //checks gear switching solenoids
+    new WaitCommand(.25),
+    new InstantCommand(() -> driveGears.switchGears()),
+    new WaitCommand(.25),
+
+    new InstantCommand(() -> lift.move(.5)), //checks lift
+    new WaitCommand(.5),
+    new InstantCommand(() -> lift.stop()),
+    new WaitCommand(.25),
+
+    new InstantCommand(() -> shooter.toggleSpeedSpark()), //checks shooter
+    new WaitCommand(.5), 
+    new InstantCommand(() -> shooter.stop()),
+    new WaitCommand(.25),
+
+    new InstantCommand(() -> plucker.toggleSpeed(pluckerVolts)), //checks plucker
+    new WaitCommand(.5), 
+    new InstantCommand(() -> plucker.stop()),
+    new WaitCommand(.25),
+
+    new InstantCommand(() -> conveyor.toggleSpeed(conveyorVolts)), //checks conveyor
+    new WaitCommand(.5), 
+    new InstantCommand(() -> conveyor.stop()),
+    new WaitCommand(.25),
+
+    new InstantCommand(() -> changePosition.posSwitch()), //checks shooter solenoids
+    new WaitCommand(.5),
+    new InstantCommand(() -> changePosition.posSwitch())
+  );
   /*private SequentialCommandGroup onAndOff = new SequentialCommandGroup(
     new InstantCommand(() -> conveyor.setSpeed(conveyorVolts), conveyor),
     new InstantCommand(() -> plucker.setSpeed(pluckerVolts), plucker),
