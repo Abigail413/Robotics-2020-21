@@ -95,6 +95,24 @@ public void collect(double intakeVolts) {
     }
   }
 
+  public void setStaticSpeedSpark() {
+    if (goalMover.isPosOut()) {
+      launcherController.setReference(intakeRPM, ControlType.kVelocity);
+
+    } else {
+      launcherController.setReference(staticShootingRPM, ControlType.kVelocity);
+    }
+  }
+
+  public void toggleStaticSpeedSpark() {
+    if (engaged) {
+      stop();
+
+    } else {
+      setStaticSpeedSpark();
+    }
+  }
+
   public boolean isEngaged() {
     return engaged;
   }

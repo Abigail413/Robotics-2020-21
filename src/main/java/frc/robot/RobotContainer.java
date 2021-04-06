@@ -217,7 +217,7 @@ public class RobotContainer {
     new JoystickButton(xbox, kX.value)
       .whenHeld(new AimTarget(limelight, drivetrain));
 
-    //toggle shooter and turn limelight on for CalculateRPM
+    //toggle shooter with RPM calculated by limelight
     new JoystickButton(xbox, kBumperLeft.value)
       .whenPressed(new InstantCommand(() -> limelight.visionMode(), limelight))
       .whenPressed(new InstantCommand(() -> limelight.lightOn(), limelight))
@@ -232,6 +232,11 @@ public class RobotContainer {
     //switch drivetrain speeds
     new JoystickButton(xbox, kA.value)
       .whenPressed(new InstantCommand(() -> driveGears.switchGears(), driveGears));
+
+    //shoot at consistent speed (in case vision is messed up)
+    new JoystickButton(xbox, kB.value)
+      .whenPressed(new InstantCommand(() -> shooter.toggleStaticSpeedSpark()))
+      .whenPressed(new ConditionalCommand(waitUntilVelocity, stopFeeders, shooter::isEngaged));
 
     //toggle feeders
     /*new JoystickButton(xbox, kBumperRight.value)

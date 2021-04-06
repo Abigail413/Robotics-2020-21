@@ -47,6 +47,7 @@ public final class Constants {
     public static final int nearShootingRPM = 1500;
     public static final int midShootingRPM = 4000;
     public static final int farShootingRPM = 7000;
+    public static final int staticShootingRPM = 3000;
 
     //compressor port
     public static final int kCompressorModule = 20;
