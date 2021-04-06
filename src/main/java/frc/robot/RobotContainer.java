@@ -105,7 +105,7 @@ public class RobotContainer {
     new InstantCommand(() -> conveyor.setSpeed(pluckerVolts), conveyor)
   );
 /**
- * tests each robot component individually
+ * Tests each robot component individually. This command group runs in test mode.
  */
   public SequentialCommandGroup testRobot = new SequentialCommandGroup(
     new RunCommand(() -> drivetrain.getDifferentialDrive().tankDrive(0.4, 0.4), drivetrain).withTimeout(2), //checks drivetrain
@@ -140,6 +140,7 @@ public class RobotContainer {
     new WaitCommand(.5),
     new InstantCommand(() -> changePosition.posSwitch())
   );
+
   /*private SequentialCommandGroup onAndOff = new SequentialCommandGroup(
     new InstantCommand(() -> conveyor.setSpeed(conveyorVolts), conveyor),
     new InstantCommand(() -> plucker.setSpeed(pluckerVolts), plucker),
