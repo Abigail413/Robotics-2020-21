@@ -20,10 +20,7 @@ public class Update {
 
     //private static final SendableChooser choosePosition = new SendableChooser<Pose2d>();
 
-    private Shooter shooter;
-
     public Update(Shooter m_shooter) {
-        shooter = m_shooter;
         /*choosePosition.setDefaultOption("Center", center);
         choosePosition.addOption("Left", left);
         choosePosition.addOption("Right", right);
