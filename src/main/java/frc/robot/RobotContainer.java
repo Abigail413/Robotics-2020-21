@@ -25,7 +25,6 @@ import frc.robot.subsystems.vision.AimTarget;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.drive.GearSwitch;
 import frc.robot.subsystems.lift.Lift;
-import frc.robot.subsystems.shooter.Plucker;
 import frc.robot.subsystems.shooter.ChangePosition;
 import frc.robot.subsystems.shooter.Conveyor;
 import frc.robot.subsystems.shooter.Shooter;
@@ -65,8 +64,6 @@ public class RobotContainer {
 
   private final Conveyor conveyor = new Conveyor(changePosition, shooter);
 
-  private final Plucker plucker = new Plucker(changePosition);
-
   private final Lift lift = new Lift();
 
   private final GearSwitch driveGears = new GearSwitch();
@@ -93,7 +90,6 @@ public class RobotContainer {
 
   private ParallelCommandGroup stopFeeders = new ParallelCommandGroup(
     new InstantCommand(() -> conveyor.stop()),
-    new InstantCommand(() -> plucker.stop()),
     new InstantCommand(() -> limelight.lightOff()),
     new InstantCommand(() -> limelight.driverMode())
 
@@ -101,8 +97,7 @@ public class RobotContainer {
 
   private SequentialCommandGroup waitUntilVelocity = new SequentialCommandGroup(
     new WaitUntilCommand(() -> shooter.atSpeed(100)),
-    new InstantCommand(() -> plucker.setSpeed(conveyorVolts), plucker),
-    new InstantCommand(() -> conveyor.setSpeed(pluckerVolts), conveyor)
+    new InstantCommand(() -> conveyor.setSpeed(conveyorVolts), conveyor)
   );
 /**
  * Tests each robot component individually. This command group runs in test mode.
@@ -124,11 +119,6 @@ public class RobotContainer {
     new InstantCommand(() -> shooter.toggleSpeedSpark()), //checks shooter
     new WaitCommand(.5), 
     new InstantCommand(() -> shooter.stop()),
-    new WaitCommand(.25),
-
-    new InstantCommand(() -> plucker.toggleSpeed(pluckerVolts)), //checks plucker
-    new WaitCommand(.5), 
-    new InstantCommand(() -> plucker.stop()),
     new WaitCommand(.25),
 
     new InstantCommand(() -> conveyor.toggleSpeed(conveyorVolts)), //checks conveyor
@@ -182,7 +172,6 @@ public class RobotContainer {
 
     shooter.stop();
     conveyor.stop();
-    plucker.stop();
   }
 
   public void periodic() {
@@ -226,7 +215,6 @@ public class RobotContainer {
 
     //toggle feeders
     new JoystickButton(xbox, kBumperRight.value)
-      .whenPressed(new InstantCommand(() -> plucker.toggleSpeed(pluckerVolts), plucker))
       .whenPressed(new InstantCommand(() -> conveyor.toggleSpeed(conveyorVolts), conveyor));
 
     //switch drivetrain speeds
