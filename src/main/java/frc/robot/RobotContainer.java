@@ -155,16 +155,14 @@ public class RobotContainer {
     drivetrain::setOutputVolts, 
     drivetrain);
 
-      /**
+  /**
    * Shakes the robot back and forth to dislodge balls
    */
-  private void robotShaker() {
-    int i;
-    for (i = 0; i < 5; i++) {
-      new RunCommand(() -> drivetrain.getDifferentialDrive().tankDrive(0.2, -0.2), drivetrain).withTimeout(1);
-      new RunCommand(() -> drivetrain.getDifferentialDrive().tankDrive(-0.2, 0.2), drivetrain).withTimeout(1);
-    }
-  }
+  private SequentialCommandGroup robotShaker = new SequentialCommandGroup(     
+    new RunCommand(() -> drivetrain.getDifferentialDrive().tankDrive(0.3, -0.3), drivetrain).withTimeout(1),
+    new RunCommand(() -> drivetrain.getDifferentialDrive().tankDrive(-0.3, 0.3), drivetrain).withTimeout(1)
+  );
+
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -258,7 +256,7 @@ public class RobotContainer {
 
     //shakes the robot to dislodge balls
     new JoystickButton(xbox, kStart.value)
-      .whileHeld(new InstantCommand(() -> robotShaker()))
+      .whileHeld(robotShaker)
       .whileHeld(new InstantCommand(() -> xboxController.startRumbleCalm()))
       .whenReleased(new InstantCommand(() -> xboxController.stopRumble()));
   }
