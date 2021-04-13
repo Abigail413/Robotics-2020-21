@@ -80,7 +80,7 @@ public void collect(double intakeVolts) {
       launcherController.setReference(intakeRPM, ControlType.kVelocity);
 
     } else {
-      launcherController.setReference(calculateRPM(/*limelight.getTargetDistanceMeasured()*/3), ControlType.kVelocity);
+      launcherController.setReference(calculateRPM(limelight.getTargetDistanceMeasured()), ControlType.kVelocity);
     }
 
     engaged = true;
@@ -202,12 +202,12 @@ public void collect(double intakeVolts) {
   }
 
   public boolean atSpeed(double range) {
-    return calculateRPM(/*limelight.getTargetDistanceMeasured()*/3) - range <= getVelocity();
+    return calculateRPM(limelight.getTargetDistanceMeasured()) - range <= getVelocity();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    System.out.println("" + calculateRPM(3));
+    System.out.println("" + calculateRPM(limelight.getTargetDistanceMeasured()));
   }
 }
