@@ -258,7 +258,8 @@ public class RobotContainer {
     new JoystickButton(xbox, kStart.value)
       .whileHeld(robotShaker)
       .whileHeld(new InstantCommand(() -> xboxController.startRumbleCalm()))
-      .whenReleased(new InstantCommand(() -> xboxController.stopRumble()));
+      .whenReleased(new InstantCommand(() -> xboxController.stopRumble()))
+      .whenReleased(new RunCommand(() -> drivetrain.getDifferentialDrive().tankDrive(-0.3, 0.3), drivetrain).withTimeout(0.01));
   }
 
 
