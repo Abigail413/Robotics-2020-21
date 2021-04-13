@@ -8,7 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -22,6 +22,7 @@ import static edu.wpi.first.wpilibj.XboxController.Button.*;
 
 import frc.robot.subsystems.vision.Limelight;
 import frc.robot.subsystems.vision.AimTarget;
+import frc.robot.subsystems.Controller;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.subsystems.drive.GearSwitch;
 import frc.robot.subsystems.lift.Lift;
@@ -67,6 +68,8 @@ public class RobotContainer {
   private final Lift lift = new Lift();
 
   private final GearSwitch driveGears = new GearSwitch();
+
+  private final Controller xboxController = new Controller(xbox);
 
 
   private Command manualDrive = new RunCommand(
@@ -177,6 +180,12 @@ public class RobotContainer {
   public void periodic() {
     /*SmartDashboard.putString("Shooting Postion:", shooter.selector.positionName);
     SmartDashboard.putNumber("Shooting RPM", shooter.shootingRPM);*/
+    if (Timer.getMatchTime() < 30) {
+      xboxController.startRumble();
+
+    } else {
+      xboxController.stopRumble();
+    }
   }
   /**
    * calculates the trajectory of the robot as it moves
