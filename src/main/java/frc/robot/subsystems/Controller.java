@@ -21,6 +21,11 @@ public class Controller extends SubsystemBase {
       controller.setRumble(RumbleType.kRightRumble, .7);
   }
 
+  public void startRumbleCalm() {
+    controller.setRumble(RumbleType.kLeftRumble, .4);
+    controller.setRumble(RumbleType.kRightRumble, .4);
+}
+
   public void stopRumble() {
     controller.setRumble(RumbleType.kLeftRumble, 0);
     controller.setRumble(RumbleType.kRightRumble, 0);
