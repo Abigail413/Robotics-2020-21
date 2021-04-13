@@ -180,13 +180,25 @@ public class RobotContainer {
   public void periodic() {
     /*SmartDashboard.putString("Shooting Postion:", shooter.selector.positionName);
     SmartDashboard.putNumber("Shooting RPM", shooter.shootingRPM);*/
-    if (Timer.getMatchTime() < 30) {
+    if (Timer.getMatchTime() < 30 && Timer.getMatchTime() > 28) {
       xboxController.startRumble();
 
     } else {
       xboxController.stopRumble();
     }
   }
+
+  /**
+   * Shakes the robot back and forth to dislodge balls
+   */
+  private void robotShaker() {
+    int i;
+    for (i = 0; i < 5; i++) {
+      new RunCommand(() -> drivetrain.getDifferentialDrive().tankDrive(0.2, -0.2), drivetrain).withTimeout(1);
+      new RunCommand(() -> drivetrain.getDifferentialDrive().tankDrive(-0.2, 0.2), drivetrain).withTimeout(1);
+    }
+  }
+
   /**
    * calculates the trajectory of the robot as it moves
    * @return trajectory of the robot
