@@ -259,7 +259,7 @@ public class RobotContainer {
       .whileHeld(robotShaker)
       .whileHeld(new InstantCommand(() -> xboxController.startRumbleCalm()))
       .whenReleased(new InstantCommand(() -> xboxController.stopRumble()))
-      .whenReleased(new RunCommand(() -> drivetrain.getDifferentialDrive().tankDrive(-0.3, 0.3), drivetrain).withTimeout(0.01));
+      .whenReleased(new RunCommand(() -> drivetrain.getDifferentialDrive().tankDrive(0, 0), drivetrain).withTimeout(0.001));
   }
 
 
