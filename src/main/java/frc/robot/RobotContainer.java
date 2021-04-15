@@ -92,9 +92,9 @@ public class RobotContainer {
     );*/
 
   private ParallelCommandGroup stopFeeders = new ParallelCommandGroup(
-    new InstantCommand(() -> conveyor.stop()),
-    new InstantCommand(() -> limelight.lightOff()),
-    new InstantCommand(() -> limelight.driverMode())
+    new InstantCommand(() -> conveyor.stop())
+    /*new InstantCommand(() -> limelight.lightOff()),
+    new InstantCommand(() -> limelight.driverMode())*/
 
   );
 
@@ -133,15 +133,6 @@ public class RobotContainer {
     new WaitCommand(.5),
     new InstantCommand(() -> changePosition.posSwitch())
   );
-
-  /*private SequentialCommandGroup onAndOff = new SequentialCommandGroup(
-    new InstantCommand(() -> conveyor.setSpeed(conveyorVolts), conveyor),
-    new InstantCommand(() -> plucker.setSpeed(pluckerVolts), plucker),
-    new WaitCommand(0.2),
-    new InstantCommand(() -> conveyor.stop()),
-    new InstantCommand(() -> plucker.stop()),
-    new WaitCommand(0.2)
-  );*/
 
   private RamseteCommand rBase = new RamseteCommand(
     getMovingTrajectory(), 
@@ -226,28 +217,24 @@ public class RobotContainer {
       .whenHeld(new AimTarget(limelight, drivetrain));
 
     //toggle shooter with RPM calculated by limelight
-    new JoystickButton(xbox, kBumperLeft.value)
+    /*new JoystickButton(xbox, kBumperLeft.value)
       .whenPressed(new InstantCommand(() -> limelight.visionMode(), limelight))
       .whenPressed(new InstantCommand(() -> limelight.lightOn(), limelight))
       .whenPressed(new InstantCommand(() -> shooter.toggleSpeedSpark()))
-      .whenPressed(new ConditionalCommand(waitUntilVelocity, stopFeeders, shooter::isEngaged));
+      .whenPressed(new ConditionalCommand(waitUntilVelocity, stopFeeders, shooter::isEngaged));*/
 
     //toggle feeders
     new JoystickButton(xbox, kBumperRight.value)
       .whenPressed(new InstantCommand(() -> conveyor.toggleSpeed(conveyorVolts), conveyor));
 
-    //switch drivetrain speeds
+    //switch drivetrain gears
     new JoystickButton(xbox, kA.value)
       .whenPressed(new InstantCommand(() -> driveGears.switchGears(), driveGears));
 
     //shoot at consistent speed (in case vision is messed up)
-    new JoystickButton(xbox, kB.value)
+    new JoystickButton(xbox, kBumperLeft.value)
       .whenPressed(new InstantCommand(() -> shooter.toggleStaticSpeedSpark()))
       .whenPressed(new ConditionalCommand(waitUntilVelocity, stopFeeders, shooter::isEngaged));
-
-    //toggle feeders
-    /*new JoystickButton(xbox, kBumperRight.value)
-      .whenHeld(onAndOff);*/
       
     //switch RPM of shooter
     /*new JoystickButton(xbox, kStart.value)
